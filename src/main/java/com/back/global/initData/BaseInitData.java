@@ -2,6 +2,7 @@ package com.back.global.initData;
 
 import com.back.domain.post.document.Post;
 import com.back.domain.post.service.PostService;
+import com.back.global.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
@@ -23,6 +24,7 @@ public class BaseInitData {
             work2();
             work3();
             work4();
+            work5();
         };
     }
 
@@ -63,6 +65,21 @@ public class BaseInitData {
             String newContent = post.getContent() + " This content has been updated.";
             Post updatedPost = postService.update(post.getId(), newTitle, newContent);
             log.debug("Updated Post: {}", updatedPost);
+            break;
+        }
+    }
+
+    private void work5() {
+        log.debug("Post 단건 삭제");
+        for (Post post : postService.findAll()) {
+            log.debug("Existing Post: {}", post);
+            postService.delete(post.getId());
+            try {
+                postService.findById(post.getId());
+            } catch (NotFoundException e) {
+                log.debug("Deleted Post, Not Found Exception!");
+            }
+
             break;
         }
     }
