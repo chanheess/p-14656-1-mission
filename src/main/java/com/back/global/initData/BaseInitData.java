@@ -21,7 +21,6 @@ public class BaseInitData {
         return args->{
             work1();
             work2();
-            work3();
         };
     }
 
@@ -44,14 +43,5 @@ public class BaseInitData {
         postService.findAll().forEach( post ->
                 log.debug("Existing Post: {}", post)
         );
-    }
-
-    private void work3() {
-        log.debug("Post 단건 조회");
-        for (Post post : postService.findAll()) {
-            Optional<Post> post1 = postService.findById(post.getId());
-            post1.ifPresent(value -> log.debug("조회된 Post: {}", value));
-            break;
-        }
     }
 }
